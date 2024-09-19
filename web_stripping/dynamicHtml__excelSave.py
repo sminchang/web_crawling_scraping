@@ -7,6 +7,9 @@ import time
 from bs4 import BeautifulSoup
 import pandas as pd
 
+#주요 기능
+#1.웹 드라이버를 활용한 동적 페이지 스크래핑
+#2.추출한 데이터 엑셀 파일에 자동 저장
 
 # 크롬 드라이버 자동 설치 및 실행 설정
 service = Service(ChromeDriverManager().install())
@@ -26,10 +29,6 @@ for page_num in range(1,69) :
     driver.get(url)
     time.sleep(5) #페이지 로딩 중 락킹 설정
 
-    #동적 데이터(JS 실행)이 없는 경우 드라이버 사용없이 데이터 추출이 가능하다.
-    #response = requests.get(url,headers=headers,  verify=False) #SSL 검증 오류로 임시 비활성화 상태
-    #soup = BeautifulSoup(response.text, 'html.parser')
-
     #페이지 요청 및 파싱
     soup = BeautifulSoup(driver.page_source, 'html.parser')
 
@@ -42,12 +41,6 @@ for page_num in range(1,69) :
         place = tr.select_one('td:nth-child(4) > p:nth-child(1)')
         #print(f"Original Text: {repr(place.text)}") #&nbsp;로 인한 문자열 형식 오류 확인
         infoType = tr.select_one('td:nth-child(4) > p:nth-child(2) > span')
-
-        # print(title.text)
-        # print(f'https://www.codil.or.kr/{title.get('href')}')
-        # print(sourceInfo.text.replace('출처정보 : ', '').strip())
-        # print(place.text.replace('발 행 처\xa0\xa0:','').strip())
-        # print(infoType.text)
 
         # 데이터를 딕셔너리로 저장
         row_data = {
