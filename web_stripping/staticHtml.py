@@ -33,4 +33,4 @@ for page_num in range(1,69) :
         print(f'https://www.codil.or.kr/{title.get('href')}')
         print(sourceInfo.text.replace('출처정보 : ', '').strip())
         print(place.text.replace('발 행 처\xa0\xa0:','').strip())
-        print(infoType.text)
+        print(infoType.text) #span id값 기반의 동적 요소로 추출되는 값이 없다. #infoType.get('id')로 span id값은 가져올 수 있다.
