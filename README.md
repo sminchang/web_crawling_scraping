@@ -19,5 +19,5 @@
 1. PowerShell 또는 명령 프롬프트에서 아래 명령어를 입력하여 가상 환경을 구축
    ```bash
    1-1. python -m venv .venv (.venv는 가상 환경에 대한 암묵적 작명법, 하위 폴더 생성 후 가상 환경 구축)
-   1-2. ./.venv/Script/activate.bat(가상 환경 활성화)
+   1-2. ./.venv/Scripts/activate.bat(가상 환경 활성화)
    1-3. pip install 라이브러리명 입력 (venv를 통해 해당 프로젝트 폴더에서만 라이브러리가 설치되도록 설정)
