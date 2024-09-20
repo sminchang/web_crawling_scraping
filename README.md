@@ -10,14 +10,14 @@
 ### IDE 설정
 1. [Visual Studio Code](https://code.visualstudio.com)를 설치
 2. VSCode의 `Extensions`에서 `Python` 확장 프로그램을 설치
-3. open folder로 CPython 폴더 설정 후 하위에 프로젝트 폴더 생성
-4. `Run and Debug` (단축키: `Ctrl + Shift + D`)에서 `Python File` 디버거를 설치(launch.json 생성)
-5. 프로젝트 폴더에 `.py` 확장자로 Python 파일을 생성한 후, VSCode에서 실행
+3. CPython 폴더 하위에 프로젝트용 폴더 생성
+4. `Run and Debug` (`Ctrl + Shift + D`)에서 `create launch.json` 클릭 후 `Python File` 디버거를 설치(launch.json 생성)
+5. 프로젝트 폴더에 `.py` 확장자로 Python 파일 생성 후 실행
 
 ### 가상 환경 구축 및 라이브러리 설치
 
 1. PowerShell 또는 명령 프롬프트에서 아래 명령어를 입력하여 가상 환경을 구축
    ```bash
    1-1. python -m venv .venv (.venv는 가상 환경에 대한 암묵적 작명법, 하위 폴더 생성 후 가상 환경 구축)
-   1-2. ./.venv/Scripts/activate.bat(가상 환경 활성화, 환경에 따라 명령어가 조금씩 다를 수 있다.)
+   1-2. ./.venv/Scripts/activate.bat(가상 환경 활성화, 실행 환경에 따라 명령어가 다를 수 있다.)
    1-3. pip install 라이브러리명 입력 (venv를 통해 해당 프로젝트 폴더에서만 라이브러리가 설치되도록 설정)
