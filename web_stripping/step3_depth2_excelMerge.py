@@ -38,8 +38,9 @@ def scrape_depth2(url, depth1_data):
     
     for tr in top_10:
 
-        if(tr.select_one('td') == '자료가 없습니다. 다른 검색조건을 선택해주세요'):
+        if tr.select_one('td').get_text(strip=True) == '자료가 없습니다. 다른 검색조건을 선택해주세요':
             break
+
 
         title2 = tr.select_one('td:nth-child(2) > a > p')
         place = tr.select_one('td:nth-child(2) > span')
@@ -50,12 +51,17 @@ def scrape_depth2(url, depth1_data):
         infoType = tr.select_one('td:nth-child(3) > span')
         sourceInfo = tr.select_one('td:nth-child(4) > a')
 
+        #depth2의 링크 유형이 2가지로 나뉘는 경우에 대한 예외처리로 pdf 다운로드가 이난 https://로 다른 링크를 타고 가는 경우 처리
+        depth2_link = sourceInfo.get("href") if sourceInfo else ''
+        if sourceInfo and 'http' not in depth2_link:
+            depth2_link = f'https://www.codil.or.kr/{depth2_link}'
+
         depth2_data = {
             'depth2_제목': title2.text.strip() if title2 else '',
             'depth2_출처정보' : place.text.replace('출처정보 :', '').strip() if place else '',
             'depth2_개정연도' : year.replace('개정년도 :', '').strip() if year else '',
             'depth2_정보유형' : infoType.text.strip() if infoType else '',
-            'depth2_링크' : f'https://www.codil.or.kr/{sourceInfo.get("href")}' if sourceInfo else ''
+            'depth2_링크' : depth2_link
         }
 
         # depth1 데이터와 depth2 데이터를 결합하여 새로운 행을 만듦(1:N 매핑의 경우, 1은 중복되는 데이터 생성하여 N개에 매핑)
