@@ -5,12 +5,14 @@
 ### CPython 설치
 1. [Python 공식 홈페이지](https://www.python.org)에서 Python 컴파일러(인터프리터)를 다운로드하여 설치
 2. 설치 과정 중 `Add Python to PATH` 옵션을 체크하여 시스템 PATH에 Python을 추가
+3. 설치 경로 어렵지 않게 설정
 
 ### IDE 설정
 1. [Visual Studio Code](https://code.visualstudio.com)를 설치
 2. VSCode의 `Extensions`에서 `Python` 확장 프로그램을 설치
-3. `Run and Debug` (단축키: `Ctrl + Shift + D`)에서 `Python File` 디버거를 설치(launch.json 생성)
-4. `.py` 확장자로 Python 파일을 생성한 후, VSCode에서 실행
+3. open folder로 CPython 폴더 설정 후 하위에 프로젝트 폴더 생성
+4. `Run and Debug` (단축키: `Ctrl + Shift + D`)에서 `Python File` 디버거를 설치(launch.json 생성)
+5. 프로젝트 폴더에 `.py` 확장자로 Python 파일을 생성한 후, VSCode에서 실행
 
 ### 가상 환경 구축 및 라이브러리 설치
 
