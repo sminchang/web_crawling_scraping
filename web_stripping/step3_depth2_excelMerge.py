@@ -4,14 +4,13 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 import time
+import re
 
 #주요 기능
 #1. 엑셀에 저장된 링크 목록에 접근하여 스크래핑
 #2. 기존 엑셀 파일에 새로운 추출 데이터 병합(추가)
 #3. depth1:depth2의 관계가 1:N인 경우, 동일한 depth1 데이터를 가지는 여러 depth2 행 생성
-
-#예외 사항
-#1. depth2가 페이징되어있는 경우를 예외처리하지 않은 상태(예외처리없이 엑셀로 추출 후 같은 depth1을 가지는 행이 다수인 경우 확인해보기로 함)
+#4. depth2가 페이징되어있는 경우를 처리
 
 
 # 크롬 드라이버 설정
@@ -38,6 +37,10 @@ def scrape_depth2(url, depth1_data):
     depth2_results = []
     
     for tr in top_10:
+
+        if(tr.select_one('td') == '자료가 없습니다. 다른 검색조건을 선택해주세요'):
+            break
+
         title2 = tr.select_one('td:nth-child(2) > a > p')
         place = tr.select_one('td:nth-child(2) > span')
 
@@ -58,6 +61,23 @@ def scrape_depth2(url, depth1_data):
         # depth1 데이터와 depth2 데이터를 결합하여 새로운 행을 만듦(1:N 매핑의 경우, 1은 중복되는 데이터 생성하여 N개에 매핑)
         combined_data = {**depth1_data, **depth2_data}
         depth2_results.append(combined_data)
+
+        # 페이징 처리가 필요한 경우, pageIndex 값을 다음 페이지로 넘어감
+    if len(top_10) == 10:
+        try:
+            next_num = int(re.search(r'pageIndex=(\d+)', url).group(1)) + 1
+            next_url = re.sub(r'pageIndex=\d+', f'pageIndex={next_num}', url)
+            driver.get(next_url)
+            time.sleep(5)
+
+            # 새로운 페이지 내용도 가져오기
+            soup = BeautifulSoup(driver.page_source, 'html.parser')
+            
+            # 재귀적으로 새로운 페이지의 데이터를 추가 수집
+            depth2_results.extend(scrape_depth2(next_url, depth1_data))
+        except Exception as e:
+            print(f"다음 페이지로 이동 실패: {str(e)}")
+
 
     return depth2_results
 
