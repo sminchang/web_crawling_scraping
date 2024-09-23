@@ -8,6 +8,7 @@ import pandas as pd
 # 			document.frm.action = "/helpdesk/search.do";
 # 			document.frm.submit();
 # 		} 다음 js 스크립트가 html에 껴있다.
+
 #2. frm이 사용자 정의된 객체이므로 개발자 도구 elements에 frm을 검색해본다.
 # <form name="frm" action="/helpdesk/search.do" method="post">
 # 	<input type="hidden" name="bbsId" value="BBSMSTR_900000000202">
@@ -17,7 +18,9 @@ import pandas as pd
 # 	<input type="hidden" name="authFlag" value="">
 # 	<input name="pageIndex" id="pageIndex" type="hidden" value="1">
 # 	... </form> 
+
 #3. post 요청으로 form 객체에 요청 정보를 담아서 보내는 구조이다.
+
 #4. post 형식으로 request를 보내는 경우에 대한 웹 스크래핑을 진행한다.
 
 
