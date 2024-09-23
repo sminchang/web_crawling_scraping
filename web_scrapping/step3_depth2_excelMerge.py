@@ -32,11 +32,11 @@ def scrape_depth2(url, depth1_data):
     soup = BeautifulSoup(driver.page_source, 'html.parser')
 
     # 목록 불러오기
-    top_10 = soup.select('#tbody > tr')
+    limit_list = soup.select('#tbody > tr')
     
     depth2_results = []
     
-    for tr in top_10:
+    for tr in limit_list:
 
         if tr.select_one('td').get_text(strip=True) == '자료가 없습니다. 다른 검색조건을 선택해주세요':
             break
@@ -69,7 +69,7 @@ def scrape_depth2(url, depth1_data):
         depth2_results.append(combined_data)
 
         # 페이징 처리가 필요한 경우, pageIndex 값을 다음 페이지로 넘어감
-    if len(top_10) == 10:
+    if len(limit_list) == 10:
         try:
             next_num = int(re.search(r'pageIndex=(\d+)', url).group(1)) + 1
             next_url = re.sub(r'pageIndex=\d+', f'pageIndex={next_num}', url)
