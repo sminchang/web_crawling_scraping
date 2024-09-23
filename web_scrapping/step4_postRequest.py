@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
+import json
 
 #주요 기능
 #1. function fn_egov_info_search(pageNo) {
@@ -22,6 +23,10 @@ import pandas as pd
 #3. post 요청으로 form 객체에 요청 정보를 담아서 보내는 구조이다.
 
 #4. post 형식으로 request를 보내는 경우에 대한 웹 스크래핑을 진행한다.
+
+#5. 현재 사이트의 경우 depth2도 같은 방식으로 구성되어, depth2에 접근하기 위한 post_data도 추출하였다.
+#따라서 depth2에서 데이터를 추출할 떄 postRequest 방식을 활용하여 요청을 보내야할 것으로 보인다.(아직 미진행)
+
 
 
 # URL 설정
@@ -55,7 +60,6 @@ for page_num in range(1, 4):
     # POST 요청 보내기 (SSL 인증서 검증 비활성화)
     response = requests.post(post_url, data=form_data, headers=headers, verify=False)
 
-    
     # 응답 데이터 파싱
     soup = BeautifulSoup(response.text, 'html.parser')
     
@@ -66,13 +70,22 @@ for page_num in range(1, 4):
         depth2_link = tr.get('onclick')
         title = tr.select_one('td.title')
 
-        depth2_start = depth2_link.find("href='")+6 #URL 시작 부분
+        depth2_start = depth2_link.find("?") + 1 #URL 시작 부분
         depth2_end = depth2_link.find("'", depth2_start) #URL 끝 부분
+        depth2_href = depth2_link[depth2_start:depth2_end]
+
+        #frm 객체에 들어간 post_data 추출
+        form = soup.select_one('form[name="frm"]')
+        post_data = {}
+        if form:
+            for input_tag in form.select('input[type="hidden"]'):
+                post_data[input_tag.get('name')] = input_tag.get('value')
 
         # 데이터를 딕셔너리로 저장
         row_data = {
             '제목': title.text if title else '',
-            '링크': depth2_link[depth2_start:depth2_end]
+            '링크': f'{post_url}{depth2_href}',
+            'POST_데이터': json.dumps(post_data)
         }
 
         # 데이터 리스트에 추가
