@@ -20,9 +20,9 @@ for page_num in range(1,69) :
     soup = BeautifulSoup(response.text, 'html.parser')
 
     #목록 불러오기
-    top_10 = soup.select('#content > div > div.content > div.tb_group > div.srchTable > table > tbody > tr')
+    limit_list = soup.select('#content > div > div.content > div.tb_group > div.srchTable > table > tbody > tr')
 
-    for tr in top_10 :
+    for tr in limit_list :
         title = tr.select_one('td.title > a')
         sourceInfo = tr.select_one('td.title > p')
         place = tr.select_one('td:nth-child(4) > p:nth-child(1)')
