@@ -56,8 +56,9 @@ def extract_text_to_file(pdf_path, output_file):
             end = len(text)
         section_text = text[start:end]
         
-        # 해당 섹션 내 개별 아이템값들 검색-추출하여 같은 행의 다른 열에 추가
         row_data = [business_number, title]
+
+        # 해당 섹션 내 아이템별 추출, 같은 행의 다른 열에 추가
         for item_key, item_pattern in item_patterns.items():
             match = re.search(item_pattern, section_text, re.DOTALL)
             if match:
