@@ -1,4 +1,4 @@
-#pdfminer,six가 다른 부분은 명확한데 도표 형식을 가져올 때는 행 순서대로 추출하지 않고 열 순서대로 추출하는 문제가 있다.
+#pdfminer,six가 다른 부분은 명확한데 도표 형식을 가져올 때는 행 순서대로 추출하지 않고 열 순서대로 추출하는 문제가 있었다.
 
 from pdfminer.high_level import extract_text
 import re
