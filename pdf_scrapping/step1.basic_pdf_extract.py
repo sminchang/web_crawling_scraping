@@ -3,7 +3,9 @@
 # 페이지 레이아웃 상 최상단에 위치한 세부사업 번호와 제목을 뒤늦게 추출하는 문제로 사용하지 않았다.
 # PyMuPDF는 개행 처리에 있어 텍스트 내 개행 문자 단위를 기준으로 하는 것으로 보인다.
 # PyPDF2도 페이지 레이아웃 상 개행을 기준으로 하는 것으로 보인다.
-# pdfminer의 최신 버전인 pdfminer.six가 가장 정밀하게 pdf 원본을 추출하여 최종 사용하였다.
+# pdfminer가 가장 정밀하게 pdf 원본을 추출하여 최종 사용하였다.
+# .six는 파이썬 2와 3사이의 호환성을 제공한다.
+
 
 from pdfminer.high_level import extract_text
 import re
