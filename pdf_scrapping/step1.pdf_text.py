@@ -24,7 +24,7 @@ def pdf_to_text(pdf_path, output_file_path):
 
 
 # 추출할 PDF 경로, 저장할 파일 경로
-pdf_path = '2023_사업별 세부설명자료-A.pdf'
+pdf_path = '2023_사업별 세부설명자료.pdf'
 output_file_path = 'output.txt'
 
 #실행
@@ -51,7 +51,7 @@ pdf_to_text(pdf_path, output_file_path)
 #     print(f"텍스트가 '{output_file_path}'에 저장되었습니다.")
 
 
-# pdf_path = "2023_사업별 세부설명자료-A.pdf"
+# pdf_path = "2023_사업별 세부설명자료.pdf"
 # output_file_path = "output2.txt"
 
 # extract_text_from_pdf(pdf_path, output_file_path)
@@ -75,7 +75,7 @@ pdf_to_text(pdf_path, output_file_path)
 #     print(f"텍스트가 '{output_file_path}'에 저장되었습니다.")
 
 
-# pdf_path = '2023_사업별 세부설명자료-A.pdf'
+# pdf_path = '2023_사업별 세부설명자료.pdf'
 # output_file_path = 'output3.txt'
 
 # pdf_to_text(pdf_path, output_file_path)
@@ -98,7 +98,7 @@ pdf_to_text(pdf_path, output_file_path)
 #     print(f"텍스트가 '{output_file_path}'에 저장되었습니다.")
 
 
-# pdf_path = '2023_사업별 세부설명자료-A.pdf'
+# pdf_path = '2023_사업별 세부설명자료.pdf'
 # output_file_path = 'output4.txt'
 
 # extracted_text = extract_text_from_pdf(pdf_path, output_file_path)
