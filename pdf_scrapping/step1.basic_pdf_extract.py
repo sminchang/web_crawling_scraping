@@ -1,7 +1,9 @@
-#spire.pdf는 유료 API로 무료 버전에서는 페이지 갯수가 제한되어있다.
-#PyMuPDF는 텍스트 내 공백 문자를 인식하지 못하는 문제가 있어 사용하지 않았다.
-#PyPDF2는 사용해보지 않았다.
-#pdfminer의 최신 버전인 pdfminer.six로 해결이 되었다.
+# spire.pdf는 유료 API로 무료 버전에서는 페이지 갯수가 제한되어있다.
+# PyMuPDF, PyPDF2 모두 텍스트 내 공백 문자를 생략해버리는 문제와 
+# 페이지 레이아웃 상 최상단에 위치한 세부사업 번호와 제목을 뒤늦게 추출하는 문제로 사용하지 않았다.
+# PyMuPDF는 개행 처리에 있어 텍스트 내 개행 문자 단위를 우선하는 것으로 보인다.
+# PyPDF2도 페이지 레이아웃 상 개행을 우선으로 하는 것으로 보인다.
+# pdfminer의 최신 버전인 pdfminer.six가 가장 정밀하게 pdf 원본을 추출하여 최종 사용하였다.
 
 from pdfminer.high_level import extract_text
 import re
