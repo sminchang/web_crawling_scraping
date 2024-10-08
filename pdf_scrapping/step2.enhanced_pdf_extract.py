@@ -41,7 +41,7 @@ def extract_text_to_file(pdf_path, output_file):
     # 세부사업 번호를 기준으로 섹션 분리 후 전체 섹션을 리스트로 저장
     sections = list(re.finditer(section_pattern, text, re.DOTALL))
 
-    # 섹션 단위로 세부사업 번호와 제목으
+        # 섹션 하나씩 세부 아이템 추출 반복
     for i, section in enumerate(sections):
 
         # 섹션의 세부사업 번호와 제목 추출
