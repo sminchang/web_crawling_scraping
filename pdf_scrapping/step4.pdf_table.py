@@ -54,7 +54,7 @@ def extract_soyojaewon_data(pdf_path, output_file):
     print(f"데이터가 '{output_file}'에 저장되었습니다.")
 
 
-pdf_path = '2023_overPaging.pdf'
+pdf_path = '2023_사업별 세부설명자료.pdf'
 output_file = 'extracted_table_data.xlsx'
 
 extract_soyojaewon_data(pdf_path, output_file)
