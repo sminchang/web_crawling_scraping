@@ -24,7 +24,7 @@ def pdf_to_text(pdf_path, output_file_path):
 
 
 # 추출할 PDF 경로, 저장할 파일 경로
-pdf_path = '2023_overPaging.pdf'
+pdf_path = '2023_사업별 세부설명자료-A.pdf'
 output_file_path = 'output.txt'
 
 #실행
