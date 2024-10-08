@@ -1,5 +1,4 @@
-# 일반 텍스트 추출 방식으로 추출하면 행, 열 구분이 뒤섞이는 경우가 있어 extract_tables()를 사용했다.
-# 도표 추출이 목적이기 떄문에 고수준의 pdfminer.high_level.extract_text()가 아닌 저수준의 extract_text()로 기본 텍스트를 추출했다.
+# pdfminer에서는 행, 열 구분이 뒤섞이는 경우가 있어 pdfplumber를 사용했다.
 # 추출하는 pdf의 도표 형식이 모두 통일되어있어 공통되는 헤더열은 제외하고 저장하였다.
 
 import pdfplumber
