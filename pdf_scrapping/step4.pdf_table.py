@@ -36,6 +36,15 @@ def extract_soyojaewon_data(pdf_path, output_file):
 
                             # 세부사업 번호를 행에 추가
                             data.append([business_number] + row)
+            else:   # 오버페이징되어 테이블만 있는 경우, 직전 세부사업 번호를 가져와서 행 생성
+                tables = page.extract_tables()
+                for table in tables:
+                    for row in table:
+                        if business_numbers:
+                            business_number = business_numbers[-1]
+                        else:
+                            business_number = "N/A"
+                data.append([business_number] + row)
 
     # 데이터프레임으로 변환하고 엑셀로 저장
     columns = ['세부사업 번호', '재 원 별', '계', '기투자', '2023년', '2024년', '2025년', '2026년', '2027년', '향후투자', '연평균증가율']  # 컬럼 이름 설정
@@ -45,7 +54,7 @@ def extract_soyojaewon_data(pdf_path, output_file):
     print(f"데이터가 '{output_file}'에 저장되었습니다.")
 
 
-pdf_path = '2023_사업별 세부설명자료.pdf'
+pdf_path = '2023_overPaging.pdf'
 output_file = 'extracted_table_data.xlsx'
 
 extract_soyojaewon_data(pdf_path, output_file)
