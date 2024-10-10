@@ -1,5 +1,4 @@
-# pdfminer에서는 행, 열 구분이 뒤섞이는 경우가 있어 pdfplumber를 사용했다.
-# 추출하는 pdf의 도표 형식이 모두 통일되어있어 공통되는 헤더열은 제외하고 저장하였다.
+# 다양한 표 형식으로 테스트해보지는 않았지만 표 추출에 있어 pdfminer보다 pdfplumber가 간단하고 성능이 좋았다.
 
 import pdfplumber
 import pandas as pd
@@ -24,18 +23,16 @@ def extract_soyojaewon_data(pdf_path, output_file):
                 tables = page.extract_tables()
 
                 for table in tables:
-                    # 테이블에 행이 있는지 확인( > 1 : 헤더가 아닌 경우에만 처리)
-                    if len(table) > 1:
-                        # 헤더를 건너뛰고 두 번째 행부터 시작하여 마지막으로 발견된 세부사업 번호와 연결
-                        for row in table[1:]:
-                            # 세부사업 번호가 있는 경우 마지막으로 찾은 번호 사용
-                            if business_numbers:
-                                business_number = business_numbers[-1]
-                            else:
-                                business_number = "N/A"  # 번호가 없는 경우 기본값
+                    #테이블별 행 단위로 데이터 추출
+                    for row in table:
+                        # 세부사업 번호가 있는 경우 마지막으로 찾은 번호 사용
+                        if business_numbers:
+                            business_number = business_numbers[-1]
+                        else:
+                            business_number = "N/A"  # 번호가 없는 경우 기본값
+                        # 세부사업 번호를 행에 추가
+                        data.append([business_number] + row)
 
-                            # 세부사업 번호를 행에 추가
-                            data.append([business_number] + row)
             else:   # 오버페이징되어 테이블만 있는 경우, 직전 세부사업 번호를 가져와서 행 생성
                 tables = page.extract_tables()
                 for table in tables:

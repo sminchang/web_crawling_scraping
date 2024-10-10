@@ -1,39 +1,64 @@
 # spire.pdf는 정확도가 높지만 유료 API로 무료 버전에서는 페이지 갯수가 제한되어있다.
 
-# PyMuPDF, PyPDF2 모두 텍스트 내 공백 문자를 생략하고, 최상단에 위치한 세부사업 번호와 제목을 중간에 추출하는 문제가 있었다.
+# PyMuPDF, PyPDF2는 텍스트 내 공백 문자를 생략해버리는 문제가 있어 사용하지 않았다.
 # PyMuPDF는 텍스트 내 개행 문자를 기준으로 개행하는 것으로 보인다.
 # PyPDF2는 페이지 레이아웃을 기준으로 개행하는 것으로 보인다.
 
-# pdfplumber는 간혹 특정 형식에서 공백을 생략하거나, 리스트를 개행없이 이어버리는 경우가 있었지만 가공하면 쓸만해보였다.
+# pdfplumber, pdfminer가 원본 형식을 가장 잘 살렸다.
+# pdfminber는 연속된 공백 문자를 개행 문자로 처리해버리는데 간혹 여기서 텍스트 순서도 뒤엉킨다.
+# pdfplumber는 종종 특정 형식(패턴을 못찾음)에서 pdfminer보다 성능이 떨어진다.
+# 결론적으로 pdfplumber와 pdfminer로 각각 추출 후 교차 검증을 하는 방식으로 처리하기로 했다.
 
-# 텍스트 추출에 있어, pdfminer가 원본 형식을 가장 잘 추출하는 것 같아 최종 사용하였다.
 # .six는 파이썬 2와 3사이의 호환성을 제공한다. 필요한 경우 추가한다.
 
 
-from pdfminer.high_level import extract_text
+# from pdfminer.high_level import extract_text
 
-def pdf_to_text(pdf_path, output_file_path):
-    # PDF 파일에서 텍스트 추출
-    text = extract_text(pdf_path)
+# def pdf_to_text(pdf_path, output_file_path):
+#     # PDF 파일에서 텍스트 추출
+#     text = extract_text(pdf_path)
     
-    # 추출한 텍스트를 텍스트 파일로 저장
+#     # 추출한 텍스트를 텍스트 파일로 저장
+#     with open(output_file_path, 'w', encoding='utf-8') as file:
+#         file.write(text)
+
+#     print(f"텍스트가 '{output_file_path}'에 저장되었습니다.")
+
+
+# # 추출할 PDF 경로, 저장할 파일 경로
+# pdf_path = '2023_사업별 세부설명자료-A.pdf'
+# output_file_path = 'output.txt'
+
+# #실행
+# pdf_to_text(pdf_path, output_file_path)
+
+
+#--------------------------------------------------------------------
+
+import pdfplumber
+
+def extract_text_from_pdf(pdf_file_path, output_file_path):
+
+    with pdfplumber.open(pdf_file_path) as pdf:
+        text = ""
+
+        for page in pdf.pages:
+            text += page.extract_text() + "\n\n"  # 각 페이지의 텍스트를 추가하고 줄바꿈
+
     with open(output_file_path, 'w', encoding='utf-8') as file:
         file.write(text)
 
     print(f"텍스트가 '{output_file_path}'에 저장되었습니다.")
 
 
-# 추출할 PDF 경로, 저장할 파일 경로
 pdf_path = '2023_사업별 세부설명자료-A.pdf'
-output_file_path = 'output.txt'
+output_file_path = 'output4.txt'
 
-#실행
-pdf_to_text(pdf_path, output_file_path)
-
+extracted_text = extract_text_from_pdf(pdf_path, output_file_path)
 
 #--------------------------------------------------------------------
 
-# import fitz
+# import fitz # PyMuPDF
 
 # def extract_text_from_pdf(pdf_path, output_file_path):
 #     doc = fitz.open(pdf_path)
@@ -79,26 +104,3 @@ pdf_to_text(pdf_path, output_file_path)
 # output_file_path = 'output3.txt'
 
 # pdf_to_text(pdf_path, output_file_path)
-
-#--------------------------------------------------------------------
-
-# import pdfplumber
-
-# def extract_text_from_pdf(pdf_file_path, output_file_path):
-
-#     with pdfplumber.open(pdf_file_path) as pdf:
-#         text = ""
-
-#         for page in pdf.pages:
-#             text += page.extract_text() + "\n\n"  # 각 페이지의 텍스트를 추가하고 줄바꿈
-
-#     with open(output_file_path, 'w', encoding='utf-8') as file:
-#         file.write(text)
-
-#     print(f"텍스트가 '{output_file_path}'에 저장되었습니다.")
-
-
-# pdf_path = '2023_사업별 세부설명자료-A.pdf'
-# output_file_path = 'output4.txt'
-
-# extracted_text = extract_text_from_pdf(pdf_path, output_file_path)
