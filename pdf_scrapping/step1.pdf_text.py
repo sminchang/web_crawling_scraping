@@ -6,7 +6,7 @@
 
 # pdfplumber, pdfminer가 원본 형식을 가장 잘 살렸다.
 # pdfminber는 연속된 공백 문자를 개행 문자로 처리해버리는데 간혹 여기서 텍스트 순서도 뒤엉킨다.
-# pdfplumber는 종종 특정 형식(패턴을 못찾음)에서 pdfminer보다 성능이 떨어진다.
+# pdfplumber는 개행 문자를 식별하는 부분에서 pdfminer보다 부정확할 때가 생긴다.
 # 결론적으로 pdfplumber와 pdfminer로 각각 추출 후 교차 검증을 하는 방식으로 처리하기로 했다.
 
 # .six는 파이썬 2와 3사이의 호환성을 제공한다. 필요한 경우 추가한다.
@@ -37,7 +37,7 @@
 
 import pdfplumber
 
-def extract_text_from_pdf(pdf_file_path, output_file_path):
+def pdf_to_text(pdf_file_path, output_file_path):
 
     with pdfplumber.open(pdf_file_path) as pdf:
         text = ""
@@ -51,10 +51,10 @@ def extract_text_from_pdf(pdf_file_path, output_file_path):
     print(f"텍스트가 '{output_file_path}'에 저장되었습니다.")
 
 
-pdf_path = '2023_사업별 세부설명자료-A.pdf'
+pdf_path = '2023_예외.pdf'
 output_file_path = 'output4.txt'
 
-extracted_text = extract_text_from_pdf(pdf_path, output_file_path)
+pdf_to_text(pdf_path, output_file_path)
 
 #--------------------------------------------------------------------
 

@@ -4,7 +4,7 @@ import pdfplumber
 import pandas as pd
 import re
 
-def extract_soyojaewon_data(pdf_path, output_file):
+def extract_table_data(pdf_path, output_file):
     data = []
 
     # PDF 파일 열기
@@ -54,5 +54,5 @@ def extract_soyojaewon_data(pdf_path, output_file):
 pdf_path = '2023_사업별 세부설명자료.pdf'
 output_file = 'extracted_table_data.xlsx'
 
-extract_soyojaewon_data(pdf_path, output_file)
+extract_table_data(pdf_path, output_file)
 
