@@ -9,11 +9,11 @@ def extract_text_to_file(pdf_path, output_file):
     data = []
     previous_row_data = None  # 직전 행 데이터를 저장하기 위한 변수
 
-    # 정규 표현식, 제목 추출 패턴
-    title_pattern = r'(?:세부사업:\s*((?:\d|\w){4}-(?:\d|\w){3}-(?:\d|\w){4}-(?:\d|\w){4}-(?:\d|\w){4}))\s*\n+(.*?)\s*(?=회계연도\s*:)'
+    # 정규 표현식, 문건 추출 패턴
+    document_pattern = r'(?:세부사업:\s*((?:\d|\w){4}-(?:\d|\w){3}-(?:\d|\w){4}-(?:\d|\w){4}-(?:\d|\w){4}))\s*\n+(.*?)\s*(?=회계연도\s*:)'
 
-    # 정규 표현식, 내용 추출 패턴
-    item_patterns = {
+    # 정규 표현식, 세부내용 추출 패턴
+    content_patterns = {
         '회계연도': r'회계연도\s*:\s*(\d{4})',
         '회계': r'회\s*계\s*:\s*(.+?)(?=\n)',
         '조직': r'조\s*직\s*:\s*(.+?)(?=\n)',
@@ -43,8 +43,8 @@ def extract_text_to_file(pdf_path, output_file):
 
     #페이지 단위로 데이터 추출
     for page_num, page_text in enumerate(pages, 1):
-        # 제목 추출
-        title_match = re.search(title_pattern, page_text, re.DOTALL)
+        # 문건 정보 추출
+        title_match = re.search(document_pattern, page_text, re.DOTALL)
         if title_match:
             title_number = title_match.group(1).strip()
             title = title_match.group(2).strip()
@@ -54,11 +54,11 @@ def extract_text_to_file(pdf_path, output_file):
             # 새로운 행 추가
             row_data = [title_number, title, start_page, end_page]
 
-            # 내용 추출
-            for item_key, item_pattern in item_patterns.items():
-                match = re.search(item_pattern, page_text, re.DOTALL)
-                if match:
-                    content = match.group(1).strip()
+            # 세부내용 정보 추출
+            for item_key, item_pattern in content_patterns.items():
+                item_match = re.search(item_pattern, page_text, re.DOTALL)
+                if item_match:
+                    content = item_match.group(1).strip()
                     row_data.append(content)
                 else:
                     row_data.append(" ")
@@ -66,7 +66,7 @@ def extract_text_to_file(pdf_path, output_file):
             data.append(row_data)
             previous_row_data = row_data  # 현재 행을 저장하여 다음에 사용할 수 있게 함
         else:
-            # 새로운 제목이 없을 경우, 이전 행의 마지막 페이지 번호를 현재 페이지 번호로 업데이트 (오버페이징 처리)
+            # 문건 정보가 없는 페이지일 경우, 이전 행의 마지막 페이지 번호를 현재 페이지 번호로 업데이트 (오버페이징 처리)
             if previous_row_data:
                 previous_row_data[2] = page_num
 
@@ -75,7 +75,7 @@ def extract_text_to_file(pdf_path, output_file):
 
 
     # 결과를 엑셀 파일로 저장
-    columns = ['세부사업 번호', '제목', '시작페이지', '마지막페이지'] + list(item_patterns.keys())
+    columns = ['세부사업 번호', '제목', '시작페이지', '마지막페이지'] + list(content_patterns.keys())
     df = pd.DataFrame(data, columns=columns)
     df.to_excel(output_file, index=False)
 
