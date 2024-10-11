@@ -79,7 +79,7 @@ def extract_text_to_file(pdf_path, output_file):
     print(f"데이터가 '{output_file}'에 저장되었습니다.")
     
 
-pdf_path = "탭예외.pdf"
-output_file = "pdfminer_content1.xlsx"
+pdf_path = "2023_사업별 세부설명자료.pdf"
+output_file = "pdfminer_content.xlsx"
 
 extract_text_to_file(pdf_path, output_file)
