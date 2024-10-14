@@ -64,7 +64,7 @@ def extract_text_to_file(pdf_path, output_file):
             else:
                 # 문건 정보가 없는 페이지일 경우, 이전 행의 마지막 페이지 번호를 현재 페이지 번호로 업데이트 (오버페이징 처리)
                 if previous_row_data:
-                    previous_row_data[2] = page_num
+                    previous_row_data[3] = page_num
 
     # 결과를 엑셀 파일로 저장
     columns = ['세부사업 번호', '제목', '시작페이지', '마지막페이지'] + list(content_patterns.keys())
