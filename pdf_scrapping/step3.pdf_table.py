@@ -17,7 +17,7 @@ def extract_table_data(pdf_path, output_file):
             # "소요재원"이 포함된 섹션 추출
             if "소요재원" in text:
                 # 정규 표현식을 사용하여 세부사업 번호 추출
-                title_numbers = re.findall(r'세부사업:\s*((?:\d|\w){4}-(?:\d|\w){3}-(?:\d|\w){4}-(?:\d|\w){4}-(?:\d|\w){4})', text)
+                title_numbers = re.findall(r'세부사업:\s*([^\n]*)', text)
 
                 # 페이지에서 테이블 추출
                 tables = page.extract_tables()
