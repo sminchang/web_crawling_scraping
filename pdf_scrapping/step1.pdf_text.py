@@ -43,7 +43,7 @@ pdf_to_text(pdf_path, output_file_path)
 #         text = ""
 
 #         for page in pdf.pages:
-#             text += page.extract_text() + "\n><\n"  # 각 페이지의 텍스트를 추가하고 줄바꿈
+#             text += page.extract_text() + "\n"  # 각 페이지의 텍스트를 추가하고 줄바꿈
 
 #     with open(output_file_path, 'w', encoding='utf-8') as file:
 #         file.write(text)
