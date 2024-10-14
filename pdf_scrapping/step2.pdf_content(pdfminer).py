@@ -70,7 +70,7 @@ def extract_text_to_file(pdf_path, output_file):
             if title_match:
                 title = title_match.group(0).strip()
             else:
-                # 문건 정보가 아예 없는 페이지의 경우, 이전 문건의 페이지 범위 확장(오버페이징 처리)
+                # 오버페이징된 경우, 이전 문건의 페이지 범위 확장
                 if previous_row_data:
                     previous_row_data[3] = page_num
                 continue  # 다음 페이지로 넘어감
