@@ -75,7 +75,7 @@ def extract_text_to_file(pdf_path, output_file):
         else:
             # 문건 정보가 없는 페이지일 경우, 이전 행의 마지막 페이지 번호를 현재 페이지 번호로 업데이트 (오버페이징 처리)
             if previous_row_data:
-                previous_row_data[2] = page_num
+                previous_row_data[3] = page_num
 
     # pdfminer가 마지막 페이지에 대하여 존재하지 않는 빈 페이지를 추가로 인식하는 예외 처리
     data[-1][2] -= 1  # 마지막 행의 마지막 페이지 번호를 -1
