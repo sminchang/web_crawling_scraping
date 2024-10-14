@@ -12,49 +12,49 @@
 # .six는 파이썬 2와 3사이의 호환성을 제공한다. 필요한 경우 추가한다.
 
 
-# from pdfminer.high_level import extract_text
+from pdfminer.high_level import extract_text
 
-# def pdf_to_text(pdf_path, output_file_path):
-#     # PDF 파일에서 텍스트 추출
-#     text = extract_text(pdf_path)
+def pdf_to_text(pdf_path, output_file_path):
+    # PDF 파일에서 텍스트 추출
+    text = extract_text(pdf_path)
     
-#     # 추출한 텍스트를 텍스트 파일로 저장
-#     with open(output_file_path, 'w', encoding='utf-8') as file:
-#         file.write(text)
-
-#     print(f"텍스트가 '{output_file_path}'에 저장되었습니다.")
-
-
-# # 추출할 PDF 경로, 저장할 파일 경로
-# pdf_path = '2018_사업별 세부설명자료-A.pdf'
-# output_file_path = 'output.txt'
-
-# #실행
-# pdf_to_text(pdf_path, output_file_path)
-
-
-#--------------------------------------------------------------------
-
-import pdfplumber
-
-def pdf_to_text(pdf_file_path, output_file_path):
-
-    with pdfplumber.open(pdf_file_path) as pdf:
-        text = ""
-
-        for page in pdf.pages:
-            text += page.extract_text() + "\n><\n"  # 각 페이지의 텍스트를 추가하고 줄바꿈
-
+    # 추출한 텍스트를 텍스트 파일로 저장
     with open(output_file_path, 'w', encoding='utf-8') as file:
         file.write(text)
 
     print(f"텍스트가 '{output_file_path}'에 저장되었습니다.")
 
 
-pdf_path = '2018_사업별 세부설명자료-A.pdf'
-output_file_path = 'output4.txt'
+# 추출할 PDF 경로, 저장할 파일 경로
+pdf_path = '2019_사업별 세부설명자료-A.pdf'
+output_file_path = 'output.txt'
 
+#실행
 pdf_to_text(pdf_path, output_file_path)
+
+
+#--------------------------------------------------------------------
+
+# import pdfplumber
+
+# def pdf_to_text(pdf_file_path, output_file_path):
+
+#     with pdfplumber.open(pdf_file_path) as pdf:
+#         text = ""
+
+#         for page in pdf.pages:
+#             text += page.extract_text() + "\n><\n"  # 각 페이지의 텍스트를 추가하고 줄바꿈
+
+#     with open(output_file_path, 'w', encoding='utf-8') as file:
+#         file.write(text)
+
+#     print(f"텍스트가 '{output_file_path}'에 저장되었습니다.")
+
+
+# pdf_path = '2024_사업별 세부설명자료-A.pdf'
+# output_file_path = 'output4.txt'
+
+# pdf_to_text(pdf_path, output_file_path)
 
 #--------------------------------------------------------------------
 

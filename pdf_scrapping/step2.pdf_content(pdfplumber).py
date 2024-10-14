@@ -12,6 +12,9 @@ def extract_text_to_file(pdf_path, output_file):
     # 정규 표현식, 문건 추출 패턴
     document_pattern = r'(?:세부사업:\s*((?:\d|\w){4}-(?:\d|\w){3}-(?:\d|\w){4}-(?:\d|\w){4}-(?:\d|\w){4}))\s*\n+(.*?)\s*(?=회계연도\s*:)'
 
+    # 정규 표현식, 세부사업 번호가 없는 문건 추출 패턴
+    non_number_pattern = r'(.*?)(?=\n회계연도)'
+
     # 정규 표현식, 세부내용 추출 패턴
     content_patterns = {
         '회계연도': r'회계연도\s*:\s*(\d{4})',
@@ -39,32 +42,41 @@ def extract_text_to_file(pdf_path, output_file):
         for page_num, page in enumerate(pdf.pages, 1):
             text = page.extract_text()
 
+            # 문건 정보 초기화
+            start_page = end_page = page_num
+            title_number = ""
+            title = ""
+
             # 문건 정보 추출
             title_match = re.search(document_pattern, text, re.DOTALL)
             if title_match:
                 title_number = title_match.group(1).strip()
                 title = title_match.group(2).strip()
-                start_page = page_num
-                end_page = page_num
-
-                # 새로운 행 추가
-                row_data = [title_number, title, start_page, end_page]
-
-                # 세부내용 정보 추출
-                for item_key, item_pattern in content_patterns.items():
-                    item_match = re.search(item_pattern, text, re.DOTALL)
-                    if item_match:
-                        content = item_match.group(1).strip()
-                        row_data.append(content)
-                    else:
-                        row_data.append(" ")
-
-                data.append(row_data)
-                previous_row_data = row_data  # 현재 행을 저장하여 다음에 사용할 수 있게 함
             else:
-                # 문건 정보가 없는 페이지일 경우, 이전 행의 마지막 페이지 번호를 현재 페이지 번호로 업데이트 (오버페이징 처리)
-                if previous_row_data:
-                    previous_row_data[3] = page_num
+                # 세부사업 번호가 없는 문건의 경우
+                title_match = re.search(non_number_pattern, text, re.DOTALL)
+                if title_match:
+                    title = title_match.group(0).strip()
+                else:
+                    # 문건 정보가 아예 없는 페이지의 경우, 이전 문건의 페이지 범위 확장(오버페이징 처리)
+                    if previous_row_data:
+                        previous_row_data[3] = page_num
+                    continue  # 다음 페이지로 넘어감
+
+            # 새로운 행 추가
+            row_data = [title_number, title, start_page, end_page]
+
+            # 문건 내, 세부내용 정보 추출
+            for item_key, item_pattern in content_patterns.items():
+                item_match = re.search(item_pattern, text, re.DOTALL)
+                if item_match:
+                    content = item_match.group(1).strip()
+                    row_data.append(content)
+                else:
+                    row_data.append(" ")
+
+            data.append(row_data)
+            previous_row_data = row_data  # 현재 행을 저장하여 다음에 사용할 수 있게 함
 
     # 결과를 엑셀 파일로 저장
     columns = ['세부사업 번호', '제목', '시작페이지', '마지막페이지'] + list(content_patterns.keys())
@@ -74,7 +86,7 @@ def extract_text_to_file(pdf_path, output_file):
     print(f"데이터가 '{output_file}'에 저장되었습니다.")
 
 
-pdf_path = "2023_사업별 세부설명자료.pdf"
-output_file = "pdfplumber_content_2023.xlsx"
+pdf_path = "2024_사업별 세부설명자료.pdf"
+output_file = "pdfplumber_content_2024.xlsx"
 
 extract_text_to_file(pdf_path, output_file)
