@@ -17,6 +17,7 @@ def extract_text_to_file(pdf_path, output_file):
 
     # 정규 표현식, 문건 추출 패턴
     document_pattern = r'세부사업:\s*\n([^\n]+)\s*\n([\s\S]*?)(?=\n*회계연도\s*:)'
+    
     # 정규 표현식, 세부사업 번호가 없는 문건 추출 패턴
     non_number_pattern = r'(.*?)(?=\n회계연도)'
 
