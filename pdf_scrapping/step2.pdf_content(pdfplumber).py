@@ -73,7 +73,7 @@ def extract_text_to_file(pdf_path, output_file):
                     content = item_match.group(1).strip()
                     row_data.append(content)
                 else:
-                    row_data.append(" ")
+                    row_data.append("")
 
             data.append(row_data)
             previous_row_data = row_data  # 현재 행을 저장하여 다음에 사용할 수 있게 함
