@@ -26,8 +26,8 @@ def pdf_to_text(pdf_path, output_file_path):
 
 
 # 추출할 PDF 경로, 저장할 파일 경로
-pdf_path = '2019_사업별 세부설명자료-A.pdf'
-output_file_path = 'output.txt'
+pdf_path = '2020_사업별 세부설명자료-A.pdf'
+output_file_path = 'output_pdfminer.txt'
 
 #실행
 pdf_to_text(pdf_path, output_file_path)
@@ -35,26 +35,26 @@ pdf_to_text(pdf_path, output_file_path)
 
 #--------------------------------------------------------------------
 
-# import pdfplumber
+import pdfplumber
 
-# def pdf_to_text(pdf_file_path, output_file_path):
+def pdf_to_text(pdf_file_path, output_file_path):
 
-#     with pdfplumber.open(pdf_file_path) as pdf:
-#         text = ""
+    with pdfplumber.open(pdf_file_path) as pdf:
+        text = ""
 
-#         for page in pdf.pages:
-#             text += page.extract_text() + "\n"  # 각 페이지의 텍스트를 추가하고 줄바꿈
+        for page in pdf.pages:
+            text += page.extract_text() + "\n"  # 각 페이지의 텍스트를 추가하고 줄바꿈
 
-#     with open(output_file_path, 'w', encoding='utf-8') as file:
-#         file.write(text)
+    with open(output_file_path, 'w', encoding='utf-8') as file:
+        file.write(text)
 
-#     print(f"텍스트가 '{output_file_path}'에 저장되었습니다.")
+    print(f"텍스트가 '{output_file_path}'에 저장되었습니다.")
 
 
-# pdf_path = '2024_사업별 세부설명자료-A.pdf'
-# output_file_path = 'output4.txt'
+pdf_path = '2020_사업별 세부설명자료-A.pdf'
+output_file_path = 'output_pdfplumber.txt'
 
-# pdf_to_text(pdf_path, output_file_path)
+pdf_to_text(pdf_path, output_file_path)
 
 #--------------------------------------------------------------------
 
@@ -77,7 +77,7 @@ pdf_to_text(pdf_path, output_file_path)
 
 
 # pdf_path = "2023_사업별 세부설명자료-A.pdf"
-# output_file_path = "output2.txt"
+# output_file_path = "output_PyMuPDF.txt"
 
 # pdf_to_text(pdf_path, output_file_path)
 
@@ -101,6 +101,6 @@ pdf_to_text(pdf_path, output_file_path)
 
 
 # pdf_path = '2023_사업별 세부설명자료-A.pdf'
-# output_file_path = 'output3.txt'
+# output_file_path = 'output_PyPDF2.txt'
 
 # pdf_to_text(pdf_path, output_file_path)
